@@ -72,7 +72,7 @@ void Output_Init(void);
 #define tempo_minimo 16000000*0.6 // 0,6s
 #define tempo_padrao 16000000*1 	// 1,0s
 #define tempo_100ms 16000000*0.1 	// 0,1s
-#define valor_15cm 2047						//
+#define valor_15cm 2047				//
 
 const long tabela_display[10] = {
 	0x3F,	// 0
@@ -134,18 +134,18 @@ void Timer1A_Handler(void){
 }
 
 int main(void){ 
-	int32_t data,In;
+	int32_t data,In,Vin;
 	int32_t lim_time= 1000;			// Tempo limite do dispensador
-	uint8_t Estado = 1;					// Declara estado inicial
+	uint8_t Estado = 1;				// Declara estado inicial
 	char UART_data;
-  Output_Init();              // initialize output device
-  PortF_Init();
+  	Output_Init();              	// initialize output device
+  	PortF_Init();
 	PortB_Init();
-	ADC0_InitSWTriggerSeq3_Ch9();		// Sequencer 3, canal 9 (PE4). - Simula��o 	
-	ADC0_InitSWTriggerSeq3(0);			// Sequencer 3, canal 0 (PE3). - Placa
-	Timer0_Init(PERIOD); 							 	// initialize timer0 (100 Hz)
+	ADC0_InitSWTriggerSeq3_Ch9();			// Sequencer 3, canal 9 (PE4). - Simula��o 	
+	//ADC0_InitSWTriggerSeq3(0);			// Sequencer 3, canal 0 (PE3). - Placa
+	Timer0_Init(PERIOD); 					// initialize timer0 (100 Hz)
 	Timer1_One_Shot_Init(PERIOD_75); 		// initialize timer1 (75%)
-	SysTick_Init();											// initialize SysTick Timer
+	SysTick_Init();							// initialize SysTick Timer
 	EnableInterrupts();
 	
 	while(1){
@@ -172,13 +172,13 @@ int main(void){
 				Estado = 3;
 				break;
 			case 3:
-				In = GPIO_PORTF_DATA_R & 0X01;	// Leitura da chave
-				if(In == 0x00){								// Teste da chave fechada
+				In = GPIO_PORTF_DATA_R & 0X01;	// Leitura da chave SW2
+				if(In == 0x00){					// Teste se a chave está fechada
 						unidade = 4;
 						dezena = 0;
 						Estado = 4;
 				}
-				else{
+				else{							// Teste se a chave está fechada
 						unidade = 2;
 						dezena = 0;
 						Estado = 2;
@@ -219,6 +219,7 @@ int main(void){
 				Estado = 6;
 				break;
 			case 6:
+				data = ADC0_InSeq3();						// Faz a leitura do ADC
 				if(1){
 					unidade = 7;
 					dezena = 0;
@@ -231,6 +232,17 @@ int main(void){
 				}
 				break;
 			case 7:
+				Vin = GPIO_PORTF_DATA_R & 0X0F;	// Leitura da chave SW1
+				if(In == 0x00){					// Teste se a chave está fechada
+						unidade = 4;
+						dezena = 0;
+						Estado = 4;
+				}
+				else{							// Teste se a chave está fechada
+						unidade = 2;
+						dezena = 0;
+						Estado = 2;
+				}
 				unidade = 8;
 				dezena = 0;
 				Estado = 8;
