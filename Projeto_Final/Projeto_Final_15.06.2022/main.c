@@ -71,7 +71,7 @@ void Output_Init(void);
 #define GREEN     0x08
 #define PERIOD 160000							// 100 Hz @ 16 MHz PLL
 #define PERIOD_75 160000*0.75			// raz�o de trabalho 75%
-#define PERIOD_85 160000*0.85			// raz�o de trabalho 85%
+#define PERIOD_90 160000*0.9			// raz�o de trabalho 90%
 #define tempo_maximo 16000000*1.4 // 1,4s
 #define tempo_minimo 16000000*0.6 // 0,6s
 #define tempo_padrao 16000000*1 	// 1,0s
@@ -137,10 +137,10 @@ void Timer1A_Handler(void){
 	// Testar a chave para atualizar a raz�o de trabalho (vaz�o)
 	SW1in = GPIO_PORTF_DATA_R & 0X10;	// Leitura da chave SW1
 	if(SW1in == 0x00){					// Teste se a chave está fechada
-		TIMER1_TAILR_R = PERIOD_75;
+		TIMER1_TAILR_R = PERIOD_90;
 	}
-	else{							// Teste se a chave está fechada
-		TIMER1_TAILR_R = PERIOD_85;			
+	else{							// Teste se a chave está aberta
+		TIMER1_TAILR_R = PERIOD_75;			
 	}
 	GPIO_PORTC_DATA_R &= ~0x20;		//0b_0010_0000		
 }

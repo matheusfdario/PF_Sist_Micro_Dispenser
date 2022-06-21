@@ -1,6 +1,6 @@
 .\main.o: main.c
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdio.h
-.\main.o: C:\Keil\ARM\ARMCC\bin\..\include\stdint.h
+.\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdio.h
+.\main.o: D:\Keil\ARM\ARMCC\bin\..\include\stdint.h
 .\main.o: ADCSWTrigger.h
 .\main.o: porta.h
 .\main.o: portb.h

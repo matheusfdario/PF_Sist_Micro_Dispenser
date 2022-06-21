@@ -25,3 +25,4 @@ void PortC_Init(void){
   GPIO_PORTC_DEN_R |= 0xF0;  	   		// enable digital I/O on PC4:PC7
 	GPIO_PORTC_DATA_R &= ~0xE0;  	   	// PC5:PC7 = 0
 }
+
